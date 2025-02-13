@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Valentín - Quiz y Álbum</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Contenedor principal */
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #ff69b4;
+            font-size: 3em;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            font-family: 'Georgia', serif;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* Estilo para el botón */
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 15px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff85c1;
+            transform: scale(1.05);
+        }
+
+        /* Estilos para el quiz */
+        #quiz {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+        }
+
+        #pregunta {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        #opciones button {
+            margin: 10px;
+            font-size: 1.2em;
+            padding: 12px 25px;
+            border-radius: 25px;
+            background-color: #fff;
+            color: #ff69b4;
+            border: 2px solid #ff69b4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #opciones button:hover {
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        /* Animación para respuesta correcta */
+        .respuesta-animada {
+            font-size: 3em;
+            color: #ff69b4;
+            font-weight: bold;
+            transform: scale(1.5);
+            animation: centrarRespuesta 1s ease-in-out, fuegosArtificiales 5s ease-in-out;
+        }
+
+        @keyframes centrarRespuesta {
+            0% {
+                transform: scale(1.5) translateX(-50%);
+            }
+            100% {
+                transform: scale(1.5) translateX(0);
+            }
+        }
+
+        @keyframes fuegosArtificiales {
+            0% {
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 30px rgba(255, 165, 0, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255, 255, 0, 0.8), 0 0 40px rgba(255, 255, 0, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 0, 0, 0.6);
+            }
+        }
+
+        /* Estilos para las imágenes del álbum */
+        .hidden {
+            display: none;
+        }
+
+        .album img {
+            max-width: 280px;
+            margin: 15px;
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .album img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+        }
+
+        /* Animación para el gato flotante */
+        .floating-cat {
+            max-width: 180px;
+            margin: 30px auto;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tarjeta de bienvenida -->
+    <div class="container" id="tarjeta">
+        <h1>💖 ¡Feliz San Valentín! 💖</h1>
+        <p>Hola, amor mío. Quiero recordarte lo mucho que significas para mí. ❤️</p>
+        <p>Espero que disfrutes esta sorpresa tanto como yo disfruté prepararla.</p>
+        <button onclick="iniciarQuiz()">Comenzar Quiz</button>
+    </div>
+
+    <!-- Quiz -->
+    <div class="container hidden" id="quiz">
+        <h2 style="color: #ff69b4;">🎁 Caza del Tesoro 🎁</h2>
+        <p style="color: #fff;">Responde correctamente para desbloquear tu regalo especial.</p>
+        <div id="pregunta"></div>
+        <div id="opciones"></div>
+    </div>
+
+    <!-- Álbum de fotos -->
+    <div class="container hidden album" id="album">
+        <h1>💖 Nuestro Álbum 💖</h1>
+        <!-- Fotos (iguales a las originales) -->
+        <img src="imagenes/foto 1.jpg" alt="Foto especial">
+        <img src="imagenes/foto 2.jpg" alt="Foto especial">
+        <img src="imagenes/foto 9.jpg" alt="Foto especial">
+        <img src="imagenes/foto 4.jpg" alt="Foto especial">
+        <img src="imagenes/foto 5.jpg" alt="Foto especial">
+        <img src="imagenes/foto 6.jpg" alt="Foto especial">
+        <img src="imagenes/foto 7.jpg" alt="Foto especial">
+        <img src="imagenes/foto 8.jpg" alt="Foto especial">
+        <img src="imagenes/foto 10.jpg" alt="Foto especial">
+        <img src="imagenes/foto 16.jpg" alt="Foto especial">
+        <img src="imagenes/foto 13.jpg" alt="Foto especial">
+        <img src="imagenes/foto 12.jpg" alt="Foto especial">
+        <img src="imagenes/foto 11.jpg" alt="Foto especial">
+        <img src="imagenes/foto 14.jpg" alt="Foto especial">
+        <img src="imagenes/foto 15.jpg" alt="Foto especial">
+        <img src="imagenes/foto 20.jpg" alt="Foto especial">
+        <img src="imagenes/foto 23.jpg" alt="Foto especial">
+        <img src="imagenes/foto 18.jpg" alt="Foto especial">
+        <img src="imagenes/foto 37.jpg" alt="Foto especial">
+        <img src="imagenes/foto 26.jpg" alt="Foto especial">
+        <img src="imagenes/foto 24.jpg" alt="Foto especial">
+        <img src="imagenes/foto 27.jpg" alt="Foto especial">
+        <img src="imagenes/foto 17.jpg" alt="Foto especial">
+        <img src="imagenes/foto 19.jpg" alt="Foto especial">
+        <img src="imagenes/foto 25.jpg" alt="Foto especial">
+        <img src="imagenes/foto 21.jpg" alt="Foto especial">
+        <img src="imagenes/foto 22.jpg" alt="Foto especial">
+        <img src="imagenes/foto 28.jpg" alt="Foto especial">
+        <img src="imagenes/foto 29.jpg" alt="Foto especial">
+        <img src="imagenes/foto 30.jpg" alt="Foto especial">
+        <img src="imagenes/foto 31.jpg" alt="Foto especial">
+        <img src="imagenes/foto 32.jpg" alt="Foto especial">
+        <img src="imagenes/foto33.jpg" alt="Foto especial">
+        <img src="imagenes/foto 34.jpg" alt="Foto especial">
+        <img src="imagenes/foto 35.jpg" alt="Foto especial">
+        <img src="imagenes/foto 36.jpg" alt="Foto especial">
+        <img src="imagenes/foto 3.jpg" alt="Foto especial">
+        <img src="imagenes/foto 38.jpg" alt="Foto especial">
+        <p>Gracias por ser parte de mi vida. Te amo Masisito. ❤️</p>
+        <img src="imagenes/fotomia.jpg" alt="Nuestro gato" class="floating-cat">
+    </div>
+
+    <audio id="musica-triste" src="audio/audio1.mp3"></audio>
+
+    <script>
+        const preguntas = [
+            { texto: "¿Cuándo es nuestro aniversario?", opciones: ["15 de noviembre", "28 de abril", "28 de octubre", "28 de agosto"], respuesta: "28 de octubre" },
+            { texto: "¿Hace cuánto estamos juntos (hoy)?", opciones: ["2 años y 3 meses", "2 años y 4 meses", "3 años y 3 meses", "2 años y 5 meses"], respuesta: "2 años y 3 meses" },
+            { texto: "¿Cómo se llama la Mia?", opciones: ["Mia Montenegro", "Mia maxisito", "Mia Capybara Maxisito lynsita", "Mia gorda"], respuesta: "Mia Capybara Maxisito lynsita" },
+            { texto: "¿Cuál es mi bebida favorita?", opciones: ["Coca", "Pesi", "Fanta", "Mirinda manzana"], respuesta: "Mirinda manzana" },
+            { texto: "¿Cuál fue mi color de pelo preferido (por mí también)?", opciones: ["Borravino", "Azul", "Negro", "Rubio"], respuesta: "Azul" },
+            { texto: "¿Qué animal nos gustaría adoptar?", opciones: ["Gato", "Perro", "Conejo", "Tortuga"], respuesta: "Gato" },
+            { texto: "¿Qué es lo que más me gusta?", opciones: ["Helado", "Chocolate", "Masisito", "Dormir"], respuesta: "Masisito" },
+            { texto: "¿Qué postre es mi favorito?", opciones: ["Helado", "Pastel", "Brownies", "Galletas"], respuesta: "Helado" },
+            { texto: "¿Qué estación del año preferimos?", opciones: ["Primavera", "Verano", "Otoño", "Invierno"], respuesta: "Invierno" },
+            { texto: "¿Quiénes se van a casar?", opciones: ["Maxi y Lyn", "Rocky y Mia", "Viejita y Drogui", "Máximo y el sueño"], respuesta: "Maxi y Lyn" }
+        ];
+
+        let preguntaActual = 0;
+
+        function iniciarQuiz() {
+            document.getElementById('tarjeta').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            mostrarPregunta();
+        }
+
+        function mostrarPregunta() {
+            if (preguntaActual < preguntas.length) {
+                const pregunta = preguntas[preguntaActual];
+                document.getElementById('pregunta').innerText = pregunta.texto;
+                const opcionesDiv = document.getElementById('opciones');
+                opcionesDiv.innerHTML = '';
+                pregunta.opciones.forEach(opcion => {
+                    const btn = document.createElement('button');
+                    btn.innerText = opcion;
+                    btn.onclick = () => verificarRespuesta(opcion);
+                    opcionesDiv.appendChild(btn);
+                });
+            } else {
+                mostrarAlbum();
+            }
+        }
+
+        function verificarRespuesta(respuestaSeleccionada) {
+            const pregunta = preguntas[preguntaActual];
+            if (respuestaSeleccionada === pregunta.respuesta) {
+                const respuestaDiv = document.createElement('div');
+                respuestaDiv.classList.add('respuesta-animada');
+                respuestaDiv.innerText = "¡Correcto! 🎉";
+                document.getElementById('quiz').appendChild(respuestaDiv);
+                preguntaActual++;
+                setTimeout(mostrarPregunta, 2000);
+            } else {
+                alert("Respuesta incorrecta. ¡Intenta de nuevo!");
+            }
+        }
+
+        function mostrarAlbum() {
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('album').classList.remove('hidden');
+            document.getElementById('musica-triste').play();
+        }
+    </script>
+</body>
+</html>
